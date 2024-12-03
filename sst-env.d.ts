@@ -6,7 +6,7 @@ import "sst"
 export {}
 declare module "sst" {
   export interface Resource {
-    "MyWeb": {
+    "web": {
       "type": "sst.aws.Remix"
       "url": string
     }

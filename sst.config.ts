@@ -4,11 +4,22 @@ export default $config({
   app(input) {
     return {
       name: "ai-compass",
-      removal: input?.stage === "production" ? "retain" : "remove",
+      region: "us-east-1",
       home: "aws",
     };
   },
   async run() {
-    new sst.aws.Remix("MyWeb");
-  },
+    const web = new sst.aws.Remix("web", {
+      environment: {
+        CLERK_PUBLISHABLE_KEY: process.env.CLERK_PUBLISHABLE_KEY || "",
+        CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY || "",
+        CLERK_SIGN_IN_FALLBACK_REDIRECT_URL: "/dashboard",
+        CLERK_SIGN_UP_FALLBACK_REDIRECT_URL: "/dashboard"
+      }
+    });
+
+    return {
+      websiteUrl: web.url
+    };
+  }
 });
